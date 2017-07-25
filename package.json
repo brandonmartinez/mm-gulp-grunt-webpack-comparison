@@ -4,7 +4,7 @@
   "description": "Demo application for presentation.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "webpack-build": "webpack"
   },
   "repository": "git+https://github.com/brandonmartinez/mm-gulp-grunt-webpack-comparison.git",
   "author": "Brandon Martinez",
@@ -15,5 +15,11 @@
   "homepage": "https://github.com/brandonmartinez/mm-gulp-grunt-webpack-comparison#readme",
   "dependencies": {
     "express": "^4.15.3"
+  },
+  "devDependencies": {
+    "file-loader": "^0.11.2",
+    "grunt": "^1.0.1",
+    "gulp": "^3.9.1",
+    "webpack": "^3.3.0"
   }
 }
