@@ -79,9 +79,36 @@ Then add the following to the task section of the Gruntfile.js:
 
 ## Add HTML Minify
 
+Install the grunt-contrib-htmlmin NPM package that we'll configure to minify our HTML files:
+
+`yarn add grunt-contrib-htmlmin --dev`
+
+Then add the following to the task section of the Gruntfile.js:
+
+    htmlmin: {
+        dist: {
+            options: {
+                removeComments: true,
+                collapseWhitespace: true
+            },
+            files: [{
+                expand: true,
+                src: buildConfig.app.html,
+                cwd: buildConfig.app.basePath,
+                dest: buildConfig.dist.html
+            }]
+        },
+    }
+
 ## Add Local Development and Webserver
 
+Install the grunt-contrib-watch NPM package that we'll configure to watch and serve files from our app:
+
+`yarn add grunt-contrib-watch --dev`
+
 ## Publish for Distribution
+
+
 
 # Gulp
 
