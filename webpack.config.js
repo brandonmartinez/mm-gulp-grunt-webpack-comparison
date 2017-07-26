@@ -2,9 +2,11 @@ var package = require('./package.json');
 var buildConfig = require('./lib/build-config.js')('webpack');
 
 module.exports = {
-    entry: buildConfig.app.appScript,
+    entry: {
+        jquery: './app/scripts/jquery.js'
+    },
     output: {
-        filename: 'app.js',
+        filename: '[name].js',
         path: buildConfig.dist.basePath
     }
 };

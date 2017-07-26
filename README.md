@@ -15,11 +15,11 @@ Source and presentation for my talk, Gulp, Grunt, WebPack: What’s a Dev to Cho
 
 Install the Grunt command line interface globally:
 
-`npm install -g grunt-cli`
+`yarn global add grunt-cli`
 
-Install the Grunt NPM package into our local project:
+Install the Grunt and grunt-task-loader NPM packages into our local project:
 
-`npm install grunt --save-dev`
+`yarn add grunt grunt-task-loader --dev`
 
 Setup the basic Gruntfile.js used to configure Grunt tasks:
 
@@ -31,6 +31,9 @@ Add this content to get started:
     var buildConfig = require('./lib/build-config.js')('grunt');
     
     module.exports = function (grunt) {
+        // Automatically register grunt tasks
+        require('grunt-task-loader')(grunt);
+
         grunt.initConfig({
             pkg: package,
             buildConfig: buildConfig
@@ -41,7 +44,38 @@ Add this content to get started:
 
 ## Add SASS
 
+Install the grunt-contrib-sass NPM package that we'll configure to compile our SASS and CSS files:
+
+`yarn add grunt-contrib-sass --dev`
+
+Then add the following to the task section of the Gruntfile.js:
+
+    sass: {
+        dist: {
+            options: {
+                style: 'compressed'
+            },
+            files: {
+                '<%=buildConfig.dist.minifiedStyles%>': buildConfig.app.styles
+            }
+        }
+    }
+
 ## Add JavaScript
+
+Install the grunt-contrib-uglify NPM package that we'll configure to combine and minify our script files:
+
+`yarn add grunt-contrib-uglify --dev`
+
+Then add the following to the task section of the Gruntfile.js:
+
+    uglify: {
+        dist: {
+            files: {
+                '<%=buildConfig.dist.minifiedScripts%>': buildConfig.app.scripts
+            }
+        }
+    }
 
 ## Add HTML Minify
 
@@ -55,11 +89,11 @@ Add this content to get started:
 
 Install the Gulp command line interface globally:
 
-`npm install -g gulp-cli`
+`yarn global add gulp-cli`
 
 Install the Gulp NPM package into our local project:
 
-`npm install gulp --save-dev`
+`yarn add gulp --dev`
 
 Setup the basic gulpfile.js used to configure Gulp tasks:
 
@@ -87,9 +121,9 @@ Add this content to get started:
 
 ## init and Configure
 
-Install the webpack and webpack file-loader NPM package into our local project:
+Install the webpack and html-webpack-plugin NPM package into our local project:
 
-`npm install webpack file-loader --save-dev`
+`yarn add webpack --dev`
 
 Setup the basic webpack.config.js used to configure Gulp tasks:
 
@@ -99,7 +133,18 @@ Add this content to get started:
 
 Add a task to the package.json file; this will ease running the webpack command:
 
+var package = require('./package.json');
+var buildConfig = require('./lib/build-config.js')('webpack');
 
+    module.exports = {
+        entry: {
+            jquery: './app/scripts/jquery.js'
+        },
+        output: {
+            filename: '[name].js',
+            path: buildConfig.dist.basePath
+        }
+    };
 
 ## Add SASS
 
