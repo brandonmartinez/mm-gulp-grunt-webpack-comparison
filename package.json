@@ -13,17 +13,18 @@
     "url": "https://github.com/brandonmartinez/mm-gulp-grunt-webpack-comparison/issues"
   },
   "homepage": "https://github.com/brandonmartinez/mm-gulp-grunt-webpack-comparison#readme",
-  "dependencies": {
-    "bootstrap-sass": "^3.3.7",
-    "express": "^4.15.3"
-  },
   "devDependencies": {
+    "bootstrap-sass": "^3.3.7",
     "connect-livereload": "^0.6.0",
+    "express": "^4.15.3",
     "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.1.0",
+    "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-htmlmin": "^2.4.0",
-    "grunt-contrib-sass": "^1.0.0",
     "grunt-contrib-uglify": "^3.0.1",
     "grunt-contrib-watch": "^1.0.0",
+    "grunt-express-server": "^0.5.3",
+    "grunt-sass": "^2.0.0",
     "grunt-task-loader": "^0.6.0",
     "gulp": "^3.9.1",
     "jquery": "^3.2.1",

@@ -9,6 +9,18 @@ Source and presentation for my talk, Gulp, Grunt, WebPack: What’s a Dev to Cho
 - Allow for local development and testing, ideally with a watch and local web server (express)
 - Publish all files into distribution folder that is deployment ready
 
+# Prerequisites
+
+The following packages are required for all of the platforms:
+
+* Yarn: https://yarnpkg.com/en/docs/install
+* Express.js: `yarn add express --dev`
+* Connect Middleware (for Live Reload): `yarn add connect-livereload --dev`
+* Bootstrap (SASS): `yarn add bootstrap --dev`
+* jQuery: `yarn add jquery --dev`
+
+_You can just run `yarn install` to get all of the packages required here; the step-by-step is meant to be instructional if you are starting a new project from scratch._
+
 # Grunt
 
 ## init and Configure
@@ -44,9 +56,9 @@ Add this content to get started:
 
 ## Add SASS
 
-Install the grunt-contrib-sass NPM package that we'll configure to compile our SASS and CSS files:
+Install the grunt-sass NPM package that we'll configure to compile our SASS and CSS files:
 
-`yarn add grunt-contrib-sass --dev`
+`yarn add grunt-sass --dev`
 
 Then add the following to the task section of the Gruntfile.js:
 
@@ -100,15 +112,23 @@ Then add the following to the task section of the Gruntfile.js:
         },
     }
 
+## Copy Other Assets
+
+`yarn add grunt-contrib-copy --dev`
+
 ## Add Local Development and Webserver
 
 Install the grunt-contrib-watch NPM package that we'll configure to watch and serve files from our app:
 
 `yarn add grunt-contrib-watch --dev`
 
+`yarn add connect-livereload --dev`
+
+`yarn add grunt-express-server --dev`
+
 ## Publish for Distribution
 
-
+`yarn add grunt-contrib-clean --dev`
 
 # Gulp
 

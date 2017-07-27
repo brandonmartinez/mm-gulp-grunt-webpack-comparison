@@ -3,25 +3,35 @@ var buildConfig = require('./lib/build-config.js')('grunt');
 
 module.exports = function (grunt) {
     // Automatically register grunt tasks
-    require('grunt-task-loader')(grunt);
+    require('grunt-task-loader')(grunt, {
+        mapping: {
+            express: 'grunt-express-server'
+        }
+    });
 
     grunt.initConfig({
         pkg: package,
         buildConfig: buildConfig,
+        clean: {
+            dist: {
+                src: [buildConfig.dist.basePath]
+            }
+        },
         sass: {
             dist: {
                 options: {
-                    style: 'compressed'
+                    outputStyle: 'compressed',
+                    sourceMap: true
                 },
                 files: {
-                    '<%=buildConfig.dist.minifiedStyles%>': buildConfig.app.styles
+                    '<%=buildConfig.dist.styles%>': buildConfig.app.styles
                 }
             }
         },
         uglify: {
             dist: {
                 files: {
-                    '<%=buildConfig.dist.minifiedScripts%>': buildConfig.app.scripts
+                    '<%=buildConfig.dist.scripts%>': buildConfig.app.scripts
                 }
             }
         },
@@ -34,12 +44,37 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     src: buildConfig.app.html,
-                    cwd: buildConfig.app.basePath,
+                    cwd: buildConfig.app.cwd,
                     dest: buildConfig.dist.html
                 }]
             },
         },
+        copy: {
+            dist: {
+                files: [
+                    // images
+                    {
+                        expand: true,
+                        flatten: true,
+                        //cwd: buildConfig.app.cwd,
+                        src: buildConfig.app.images,
+                        dest: buildConfig.dist.basePath
+                    },
+                    // fonts
+                    {
+                        expand: true,
+                        flatten: true,
+                        //cwd: buildConfig.app.cwd,
+                        src: buildConfig.app.fonts,
+                        dest: buildConfig.dist.basePath
+                    }
+                ],
+            },
+        },
         watch: {
+            options: {
+                livereload: true
+            },
             sass: {
                 files: buildConfig.app.styles,
                 tasks: ['sass'],
@@ -62,8 +97,27 @@ module.exports = function (grunt) {
                     livereload: true,
                 },
             },
+            express: {
+                files: ['app.js'],
+                tasks: ['express:dev'],
+                options: {
+                    spawn: false
+                }
+            }
         },
+        express: {
+            options: {
+
+            },
+            dev: {
+                options: {
+                    script: 'app.js'
+                }
+            }
+        }
     });
 
-    grunt.registerTask('default', []);
+    grunt.registerTask('build', ['clean:dist', 'sass:dist', 'uglify:dist', 'htmlmin:dist', 'copy:dist']);
+    grunt.registerTask('serve', ['build', 'express:dev', 'watch']);
+    grunt.registerTask('default', 'serve');
 };
