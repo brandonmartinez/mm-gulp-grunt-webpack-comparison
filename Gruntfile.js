@@ -94,7 +94,6 @@ module.exports = function (grunt) {
                 files: buildConfig.app.scripts.files,
                 tasks: ['uglify'],
                 options: {
-                    cwd: buildConfig.app.scripts.cwd,
                     livereload: true,
                 },
             },
