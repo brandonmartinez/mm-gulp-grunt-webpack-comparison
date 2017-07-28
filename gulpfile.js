@@ -14,7 +14,16 @@ var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var clean = require('gulp-clean');
 var htmlmin = require('gulp-htmlmin');
-var gls = require('gulp-live-server');
+
+// Live Server
+var liveReloadOptions = {
+    cwd: undefined
+};
+liveReloadOptions.env = process.env;
+liveReloadOptions.env.NODE_ENV = 'development';
+liveReloadOptions.env.PLATFORM = 'gulp';
+liveReloadOptions.env.PORT = 3001;
+var gls = require('gulp-live-server', liveReloadOptions);
 
 // Tasks
 gulp.task('sass', function (cb) {
@@ -79,7 +88,7 @@ gulp.task('clean', function (cb) {
     pump(tasks, cb);
 });
 
-gulp.task('server', function(cb){
+gulp.task('server', function (cb) {
     var server = gls.new('server.js');
     server.start();
 });
