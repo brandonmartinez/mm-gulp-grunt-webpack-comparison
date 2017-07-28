@@ -56,11 +56,7 @@ module.exports = function (grunt) {
                 sourceMap: true
             },
             dist: {
-                src: [].concat(
-                    buildConfig.dependencies.jquery.scripts.files,
-                    buildConfig.dependencies.bootstrap.scripts.files,
-                    buildConfig.app.scripts.files
-                ),
+                src: buildConfig.build.uglify,
                 dest: buildConfig.dist.scripts
             }
         },

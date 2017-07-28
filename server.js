@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var path = require('path');
-var baseDirectory = path.join(__dirname, '.dist/grunt');
+var baseDirectory = path.join(__dirname, '.dist/gulp');
 var portNumber = 3000;
 
 app.use(express.static(baseDirectory));

@@ -116,7 +116,7 @@ Then add the following to the task section of the Gruntfile.js:
 
 `yarn add grunt-contrib-copy --dev`
 
-## Add Local Development and Webserver
+## Local Development and Distribution
 
 Install the grunt-contrib-watch NPM package that we'll configure to watch and serve files from our app:
 
@@ -125,8 +125,6 @@ Install the grunt-contrib-watch NPM package that we'll configure to watch and se
 `yarn add connect-livereload --dev`
 
 `yarn add grunt-express-server --dev`
-
-## Publish for Distribution
 
 `yarn add grunt-contrib-clean --dev`
 
@@ -138,9 +136,9 @@ Install the Gulp command line interface globally:
 
 `yarn global add gulp-cli`
 
-Install the Gulp NPM package into our local project:
+Install the Gulp and Pump NPM package into our local project:
 
-`yarn add gulp --dev`
+`yarn add gulp pump --dev`
 
 Setup the basic gulpfile.js used to configure Gulp tasks:
 
@@ -156,13 +154,23 @@ Add this content to get started:
 
 ## Add SASS
 
+`yarn add gulp-sass --dev`
+`yarn add gulp-sourcemaps --dev`
+`yarn add gulp-rename --dev`
+
 ## Add JavaScript
+
+`yarn add gulp-uglify --dev`
+`yarn add gulp-concat --dev`
 
 ## Add HTML Minify
 
-## Add Local Development and Webserver
+`yard add gulp-htmlmin --dev`
 
-## Publish for Distribution
+## Local Development and Distribution
+
+`yarn add gulp-clean --dev`
+`yarn add gulp-live-server --dev`
 
 # Webpack
 
@@ -199,6 +207,4 @@ var buildConfig = require('./lib/build-config.js')('webpack');
 
 ## Add HTML Minify
 
-## Add Local Development and Webserver
-
-## Publish for Distribution
+## Local Development and Distribution
