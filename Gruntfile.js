@@ -15,37 +15,11 @@ module.exports = function (grunt) {
         clean: {
             dist: {
                 src: [
-                    buildConfig.dist.basePath,
-                    buildConfig.temp.basePath
+                    buildConfig.dist.basePath
                 ]
             }
         },
         copy: {
-            temp: {
-                files: [
-                    // jquery
-                    {
-                        expand: true,
-                        cwd: buildConfig.dependencies.jquery.scripts.cwd,
-                        src: buildConfig.dependencies.jquery.scripts.files,
-                        dest: buildConfig.temp.scripts + 'vendor/'
-                    },
-                    // bootstrap
-                    {
-                        expand: true,
-                        cwd: buildConfig.dependencies.bootstrap.scripts.cwd,
-                        src: buildConfig.dependencies.bootstrap.scripts.files,
-                        dest: buildConfig.temp.scripts + 'vendor/'
-                    },
-                    // app
-                    {
-                        expand: true,
-                        cwd: buildConfig.app.scripts.cwd,
-                        src: buildConfig.app.scripts.files,
-                        dest: buildConfig.temp.scripts + 'app/'
-                    },
-                ],
-            },
             dist: {
                 files: [
                     // images
@@ -82,10 +56,11 @@ module.exports = function (grunt) {
                 sourceMap: true
             },
             dist: {
-                src: [
-                    buildConfig.temp.scripts + 'vendor/**/*.js',
-                    buildConfig.temp.scripts + 'app/**/*.js'
-                ],
+                src: [].concat(
+                    buildConfig.dependencies.jquery.scripts.files,
+                    buildConfig.dependencies.bootstrap.scripts.files,
+                    buildConfig.app.scripts.files
+                ),
                 dest: buildConfig.dist.scripts
             }
         },
@@ -152,8 +127,7 @@ module.exports = function (grunt) {
     });
 
     // build tasks
-    grunt.registerTask('build:scripts', ['copy:temp', 'uglify:dist']);
-    grunt.registerTask('build', ['clean:dist', 'sass:dist', 'build:scripts', 'htmlmin:dist', 'copy:dist']);
+    grunt.registerTask('build', ['clean:dist', 'sass:dist', 'uglify:dist', 'htmlmin:dist', 'copy:dist']);
 
     // dev tasks
     grunt.registerTask('serve', ['build', 'express:dev', 'watch']);
