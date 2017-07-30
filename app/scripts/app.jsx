@@ -4,43 +4,75 @@ const axios = require('axios');
 
 const Title = ({ todoCount }) => {
     return (
-        <div>
-            <div>
-                <h1>to-do ({todoCount})</h1>
-            </div>
-        </div>
+        <h1>Todo Manager ({todoCount})</h1>
     );
 }
 
 const TodoForm = ({ addTodo }) => {
-    // Input Tracker
-    let input;
-    // Return JSX
+    let nameInput, textInput;
+
     return (
-        <form onSubmit={(e) => {
+        <form className="form-horizontal" onSubmit={(e) => {
             e.preventDefault();
-            addTodo(input.value);
-            input.value = '';
+            addTodo(nameInput.value, textInput.value);
+            nameInput.value = '';
+            textInput.value = '';
         }}>
-            <input className="form-control col-md-12" ref={node => {
-                input = node;
-            }} />
-            <br />
+            <div className="form-group">
+                <label for="nameInput" className="col-sm-2 control-label">Name</label>
+                <div className="col-sm-10">
+                    <input type="text" className="form-control" id="nameInput" placeholder="Name" ref={node => {
+                        nameInput = node;
+                    }} />
+                </div>
+            </div>
+            <div className="form-group">
+                <label for="textInput" className="col-sm-2 control-label">Text</label>
+                <div className="col-sm-10">
+                    <input type="text" className="form-control" id="textInput" placeholder="Text" ref={node => {
+                        textInput = node;
+                    }} />
+                </div>
+            </div>
+            <div className="form-group">
+                <div className="col-sm-offset-2 col-sm-10">
+                    <button type="submit" className="btn btn-default">Add Todo</button>
+                </div>
+            </div>
         </form>
+
     );
 };
 
-const Todo = ({ todo, remove }) => {
-    // Each Todo
-    return (<a href="#" className="list-group-item" onClick={() => { remove(todo.id) }}>{todo.text}</a>);
+const Todo = ({ todo }) => {
+    return (
+        <tr>
+            <td>{todo.id}</td>
+            <td>{todo.name}</td>
+            <td>{todo.text}</td>
+        </tr>
+    );
 }
 
-const TodoList = ({ todos, remove }) => {
+const TodoList = ({ todos }) => {
     // Map through the todos
     const todoNode = todos.map((todo) => {
-        return (<Todo todo={todo} key={todo.id} remove={remove} />)
+        return (<Todo todo={todo} key={todo.id} />)
     });
-    return (<div className="list-group" style={{ marginTop: '30px' }}>{todoNode}</div>);
+    return (
+        <table className="table table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Text</th>
+                </tr>
+            </thead>
+            <tbody>
+                {todoNode}
+            </tbody>
+        </table>
+    );
 }
 
 // Contaner Component
@@ -65,10 +97,10 @@ class TodoApp extends React.Component {
                 this.setState({ data: res.data });
             });
     }
-    // Add todo handler
-    addTodo(val) {
+
+    addTodo(name, text) {
         // Assemble data
-        const todo = { text: val }
+        const todo = { name: name, text: text }
         // Update data
         axios.post(this.apiUrl, todo)
             .then((res) => {
@@ -76,29 +108,26 @@ class TodoApp extends React.Component {
                 this.setState({ data: this.state.data });
             });
     }
-    // Handle remove
-    handleRemove(id) {
-        // Filter all todos except the one to be removed
-        const remainder = this.state.data.filter((todo) => {
-            if (todo.id !== id) return todo;
-        });
-        // Update state with filter
-        axios.delete(this.apiUrl + '/' + id)
-            .then((res) => {
-                this.setState({ data: remainder });
-            })
-    }
 
     render() {
-        // Render JSX
+
         return (
-            <div>
-                <Title todoCount={this.state.data.length} />
-                <TodoForm addTodo={this.addTodo.bind(this)} />
-                <TodoList
-                    todos={this.state.data}
-                    remove={this.handleRemove.bind(this)}
-                />
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-12">
+                        <Title todoCount={this.state.data.length} />
+                        <p>This is a sample application used to demonstrate basic web development asset management in a build toolchain.</p>
+                        <p>To use this sample application, enter values in the boxes. New values will be added on the server and populate the screen.</p>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-4">
+                        <TodoForm addTodo={this.addTodo.bind(this)} />
+                    </div>
+                    <div className="col-md-8">
+                        <TodoList todos={this.state.data} />
+                    </div>
+                </div>
             </div>
         );
     }

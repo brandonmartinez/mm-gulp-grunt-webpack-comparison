@@ -5,13 +5,23 @@ var path = require('path');
 var portNumber = process.env.PORT || 3000;
 var platform = process.env.PLATFORM;
 var baseDirectory = path.join(__dirname, '.dist/' + platform);
-var todoCounter = 0;
-var todos = [
-
+var todoCounter = 1;
+var todos = [{
+    id: todoCounter++,
+    name: 'First Sample',
+    text: 'A todo to use as a sample.'
+  },
+  {
+    id: todoCounter++,
+    name: 'Second Sample',
+    text: 'Yet another todo to use as a sample.'
+  }
 ];
 
 // Configure body parsing
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(bodyParser.json());
 
 app.route('/api/todos')
@@ -19,19 +29,15 @@ app.route('/api/todos')
     res.send(todos);
   })
   .post(function (req, res) {
-    todoCounter++;
-
     var todo = {
-      id: todoCounter,
+      id: todoCounter++,
+      name: req.body.name,
       text: req.body.text
     };
-    
+
     todos.push(todo);
 
     res.send(todo);
-  })
-  .delete(function (req, res) {
-
   });
 
 app.use(express.static(baseDirectory));
