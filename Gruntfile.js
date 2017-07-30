@@ -63,6 +63,7 @@ module.exports = function (grunt) {
                     browserifyOptions: {
                         debug: true
                     },
+                    transform: [['babelify', { presets: ['es2015', 'react'] }]]
                 },
                 src: buildConfig.app.scripts.file,
                 dest: buildConfig.dist.scripts

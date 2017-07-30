@@ -1,25 +1,26 @@
 // Config
-var package = require('./package.json');
-var platform = 'gulp';
-var buildConfig = require('./lib/build-config.js')(platform);
+const package = require('./package.json');
+const platform = 'gulp';
+const buildConfig = require('./lib/build-config.js')(platform);
 
 // Gulp
-var gulp = require('gulp');
-var pump = require('pump');
-var run = require('run-sequence');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
+const gulp = require('gulp');
+const pump = require('pump');
+const run = require('run-sequence');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
 
 // Gulp Plugins
-var sourcemaps = require('gulp-sourcemaps');
-var rename = require('gulp-rename');
-var sass = require('gulp-sass');
-var babel = require('gulp-babel');
-var concat = require('gulp-concat');
-var clean = require('gulp-clean');
-var htmlmin = require('gulp-htmlmin');
-var browserify = require('browserify');
-var uglify = require('gulp-uglify');
+const sourcemaps = require('gulp-sourcemaps');
+const rename = require('gulp-rename');
+const sass = require('gulp-sass');
+const babel = require('gulp-babel');
+const concat = require('gulp-concat');
+const clean = require('gulp-clean');
+const htmlmin = require('gulp-htmlmin');
+const browserify = require('browserify');
+const babelify = require('babelify');
+const uglify = require('gulp-uglify');
 
 // Environment Variable Modification for Express
 process.env.NODE_ENV = 'development';
@@ -47,7 +48,9 @@ gulp.task('scripts', function (cb) {
         browserify({
             entries: buildConfig.app.scripts.file,
             debug: true
-        }).bundle(),
+        })
+            .transform(babelify)
+            .bundle(),
         //gulp.src(buildConfig.build.babel),
         source('app.js'),
         buffer(),

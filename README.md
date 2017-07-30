@@ -14,11 +14,12 @@ Source and presentation for my talk, Gulp, Grunt, WebPack: What’s a Dev to Cho
 The following packages are required for all of the platforms:
 
 * Yarn: https://yarnpkg.com/en/docs/install
-* babel: `yarn global add babel-cli` and `yarn add babel-preset-env babel-preset-react babel-preset-es2015 --dev`
+* babel: `yarn global add babel-cli` and `yarn add babelify babel-preset-env babel-preset-react babel-preset-es2015 --dev`
 * browserify: `yarn global add browserify`
-* Express.js: `yarn add express --dev`
+* Express.js: `yarn add express body-parser --dev`
 * Bootstrap (SASS): `yarn add bootstrap --dev`
 * jQuery: `yarn add jquery --dev`
+* axios: `yarn add axios --dev`
 * react: `yarn add react react-dom --dev`
 
 _You can just run `yarn install` to get all of the packages required here; the step-by-step is meant to be instructional if you are starting a new project from scratch._
