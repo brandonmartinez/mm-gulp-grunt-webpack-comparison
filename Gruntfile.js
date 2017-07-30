@@ -1,5 +1,6 @@
 var package = require('./package.json');
-var buildConfig = require('./lib/build-config.js')('grunt');
+var platform = 'grunt';
+var buildConfig = require('./lib/build-config.js')(platform);
 
 module.exports = function (grunt) {
     // Automatically register grunt tasks
@@ -8,6 +9,11 @@ module.exports = function (grunt) {
             express: 'grunt-express-server'
         }
     });
+
+    // Environment Variable Modification for Express
+    process.env.NODE_ENV = 'development';
+    process.env.PLATFORM = platform;
+    process.env.PORT = 3000;
 
     grunt.initConfig({
         pkg: package,
@@ -76,29 +82,24 @@ module.exports = function (grunt) {
         },
         watch: {
             options: {
-                livereload: true
+                livereload: false
             },
             sass: {
                 files: buildConfig.app.styles.watch,
                 tasks: ['sass'],
                 options: {
-                    cwd: buildConfig.app.styles.cwd,
-                    livereload: true,
+                    cwd: buildConfig.app.styles.cwd
                 },
             },
             uglify: {
                 files: buildConfig.app.scripts.files,
                 tasks: ['uglify'],
-                options: {
-                    livereload: true,
-                },
             },
             htmlmin: {
                 files: buildConfig.app.html.files,
                 tasks: ['htmlmin'],
                 options: {
-                    cwd: buildConfig.app.html.cwd,
-                    livereload: true,
+                    cwd: buildConfig.app.html.cwd
                 },
             },
             express: {

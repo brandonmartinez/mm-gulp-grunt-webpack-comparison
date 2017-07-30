@@ -136,9 +136,9 @@ Install the Gulp command line interface globally:
 
 `yarn global add gulp-cli`
 
-Install the Gulp and Pump NPM package into our local project:
+Install the Gulp, Pump, and run-sequence NPM package into our local project:
 
-`yarn add gulp pump --dev`
+`yarn add gulp pump run-sequence --dev`
 
 Setup the basic gulpfile.js used to configure Gulp tasks:
 

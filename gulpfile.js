@@ -1,10 +1,12 @@
 // Config
 var package = require('./package.json');
-var buildConfig = require('./lib/build-config.js')('gulp');
+var platform = 'gulp';
+var buildConfig = require('./lib/build-config.js')(platform);
 
 // Gulp
 var gulp = require('gulp');
 var pump = require('pump');
+var run = require('run-sequence');
 
 // Gulp Plugins
 var sourcemaps = require('gulp-sourcemaps');
@@ -15,15 +17,13 @@ var concat = require('gulp-concat');
 var clean = require('gulp-clean');
 var htmlmin = require('gulp-htmlmin');
 
+// Environment Variable Modification for Express
+process.env.NODE_ENV = 'development';
+process.env.PLATFORM = platform;
+process.env.PORT = 3001;
+
 // Live Server
-var liveReloadOptions = {
-    cwd: undefined
-};
-liveReloadOptions.env = process.env;
-liveReloadOptions.env.NODE_ENV = 'development';
-liveReloadOptions.env.PLATFORM = 'gulp';
-liveReloadOptions.env.PORT = 3001;
-var gls = require('gulp-live-server', liveReloadOptions);
+var gls = require('gulp-live-server');
 
 // Tasks
 gulp.task('sass', function (cb) {
@@ -88,14 +88,36 @@ gulp.task('clean', function (cb) {
     pump(tasks, cb);
 });
 
+gulp.task('watch', function () {
+    gulp.watch(buildConfig.app.styles.watch, ['sass']);
+    gulp.watch(buildConfig.app.scripts.files, ['uglify']);
+    gulp.watch(buildConfig.app.html.files, ['htmlmin']);
+});
+
 gulp.task('server', function (cb) {
-    var server = gls.new('server.js');
+    var serverFileName = 'server.js',
+        server = gls.new(serverFileName);
+
     server.start();
+
+    // If any distribution files change reload them in the browser
+    gulp.watch([buildConfig.dist.basePath + '**\*'], function (file) {
+        console.log('file changed!', file);
+        server.notify.apply(server, [file]);
+    });
+
+    gulp.watch(serverFileName, server.start.bind(server));
 });
 
 // build tasks
-gulp.task('build', ['clean', 'sass', 'uglify', 'htmlmin', 'copy:images', 'copy:fonts']);
+gulp.task('build', function (cb) {
+    // By default, gulp will attempt to run tasks in parallel, but we have some dependencies to manage
+    run('clean', ['sass', 'uglify', 'htmlmin', 'copy:images', 'copy:fonts'], cb);
+});
 
 // dev tasks
-gulp.task('serve', ['build', 'server']);
+gulp.task('serve', function (cb) {
+    run('build', ['watch', 'server']);
+});
+
 gulp.task('default', ['serve']);

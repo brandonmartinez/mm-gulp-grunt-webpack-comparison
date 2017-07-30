@@ -15,7 +15,6 @@
   "homepage": "https://github.com/brandonmartinez/mm-gulp-grunt-webpack-comparison#readme",
   "devDependencies": {
     "bootstrap-sass": "^3.3.7",
-    "connect-livereload": "^0.6.0",
     "express": "^4.15.3",
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "^1.1.0",
@@ -37,6 +36,7 @@
     "gulp-uglify": "^3.0.0",
     "jquery": "^3.2.1",
     "pump": "^1.0.2",
+    "run-sequence": "^2.1.0",
     "webpack": "^3.4.0"
   }
 }
