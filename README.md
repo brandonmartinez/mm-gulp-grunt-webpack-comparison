@@ -15,7 +15,6 @@ The following packages are required for all of the platforms:
 
 * Yarn: https://yarnpkg.com/en/docs/install
 * Express.js: `yarn add express --dev`
-* Connect Middleware (for Live Reload): `yarn add connect-livereload --dev`
 * Bootstrap (SASS): `yarn add bootstrap --dev`
 * jQuery: `yarn add jquery --dev`
 
@@ -121,8 +120,6 @@ Then add the following to the task section of the Gruntfile.js:
 Install the grunt-contrib-watch NPM package that we'll configure to watch and serve files from our app:
 
 `yarn add grunt-contrib-watch --dev`
-
-`yarn add connect-livereload --dev`
 
 `yarn add grunt-express-server --dev`
 
