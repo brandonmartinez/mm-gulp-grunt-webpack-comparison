@@ -14,9 +14,12 @@ Source and presentation for my talk, Gulp, Grunt, WebPack: What’s a Dev to Cho
 The following packages are required for all of the platforms:
 
 * Yarn: https://yarnpkg.com/en/docs/install
+* babel: `yarn global add babel-cli` and `yarn add babel-preset-env babel-preset-react babel-preset-es2015 --dev`
+* browserify: `yarn global add browserify`
 * Express.js: `yarn add express --dev`
 * Bootstrap (SASS): `yarn add bootstrap --dev`
 * jQuery: `yarn add jquery --dev`
+* react: `yarn add react react-dom --dev`
 
 _You can just run `yarn install` to get all of the packages required here; the step-by-step is meant to be instructional if you are starting a new project from scratch._
 
@@ -74,9 +77,9 @@ Then add the following to the task section of the Gruntfile.js:
 
 ## Add JavaScript
 
-Install the grunt-contrib-uglify NPM package that we'll configure to combine and minify our script files:
+Install the babel and grunt-contrib-uglify NPM package that we'll configure to combine and minify our script files:
 
-`yarn add grunt-contrib-uglify --dev`
+`yarn add grunt-browserify grunt-exorcise grunt-babel grunt-contrib-uglify --dev`
 
 Then add the following to the task section of the Gruntfile.js:
 
@@ -133,9 +136,9 @@ Install the Gulp command line interface globally:
 
 `yarn global add gulp-cli`
 
-Install the Gulp, Pump, and run-sequence NPM package into our local project:
+Install the Gulp, Pump, run-sequence, vinyl-buffer, and vinyl-source-stream NPM package into our local project:
 
-`yarn add gulp pump run-sequence --dev`
+`yarn add gulp pump run-sequence vinyl-buffer vinyl-source-stream --dev`
 
 Setup the basic gulpfile.js used to configure Gulp tasks:
 
@@ -157,8 +160,7 @@ Add this content to get started:
 
 ## Add JavaScript
 
-`yarn add gulp-uglify --dev`
-`yarn add gulp-concat --dev`
+`yarn add gulp-babel gulp-concat gulp-browserify gulp-uglify --dev`
 
 ## Add HTML Minify
 

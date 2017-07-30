@@ -26,21 +26,23 @@ module.exports = function (grunt) {
             }
         },
         copy: {
-            dist: {
+            distfonts: {
                 files: [
-                    // images
-                    {
-                        expand: true,
-                        cwd: buildConfig.app.images.cwd,
-                        src: buildConfig.app.images.files,
-                        dest: buildConfig.dist.images
-                    },
-                    // fonts
                     {
                         expand: true,
                         cwd: buildConfig.app.fonts.cwd,
                         src: buildConfig.app.fonts.files,
                         dest: buildConfig.dist.fonts
+                    }
+                ],
+            },
+            distimages: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: buildConfig.app.images.cwd,
+                        src: buildConfig.app.images.files,
+                        dest: buildConfig.dist.images
                     }
                 ],
             },
@@ -55,14 +57,42 @@ module.exports = function (grunt) {
                 dest: buildConfig.dist.styles,
             }
         },
-        uglify: {
+        browserify: {
+            dist: {
+                options: {
+                    browserifyOptions: {
+                        debug: true
+                    },
+                },
+                src: buildConfig.app.scripts.file,
+                dest: buildConfig.dist.scripts
+            }
+        },
+        exorcise: {
+            dist: {
+                options: {},
+                files: {
+                    '<%=buildConfig.dist.scripts%>.map': buildConfig.dist.scripts,
+                }
+            }
+        },
+        babel: {
             options: {
-                compress: true,
-                mangle: true,
-                sourceMap: true
+                sourceMap: true,
             },
             dist: {
-                src: buildConfig.build.uglify,
+                src: buildConfig.dist.scripts,
+                dest: buildConfig.dist.scripts
+            }
+        },
+        uglify: {
+            options: {
+                sourceMap: true,
+                compress: true,
+                mangle: true
+            },
+            dist: {
+                src: buildConfig.dist.scripts,
                 dest: buildConfig.dist.scripts
             }
         },
@@ -84,20 +114,20 @@ module.exports = function (grunt) {
             options: {
                 livereload: false
             },
-            sass: {
+            styles: {
                 files: buildConfig.app.styles.watch,
-                tasks: ['sass'],
+                tasks: ['styles'],
                 options: {
                     cwd: buildConfig.app.styles.cwd
                 },
             },
-            uglify: {
+            scripts: {
                 files: buildConfig.app.scripts.files,
-                tasks: ['uglify'],
+                tasks: ['scripts'],
             },
             htmlmin: {
                 files: buildConfig.app.html.files,
-                tasks: ['htmlmin'],
+                tasks: ['html'],
                 options: {
                     cwd: buildConfig.app.html.cwd
                 },
@@ -122,8 +152,15 @@ module.exports = function (grunt) {
         }
     });
 
+    // friendly aliases
+    grunt.registerTask('scripts', ['browserify:dist', 'exorcise:dist', 'babel:dist', 'uglify:dist']);
+    grunt.registerTask('styles', 'sass:dist');
+    grunt.registerTask('html', 'htmlmin:dist');
+    grunt.registerTask('fonts', 'copy:distfonts');
+    grunt.registerTask('images', 'copy:distimages');
+
     // build tasks
-    grunt.registerTask('build', ['clean:dist', 'sass:dist', 'uglify:dist', 'htmlmin:dist', 'copy:dist']);
+    grunt.registerTask('build', ['clean', 'styles', 'scripts', 'html', 'fonts', 'images']);
 
     // dev tasks
     grunt.registerTask('serve', ['build', 'express:dev', 'watch']);

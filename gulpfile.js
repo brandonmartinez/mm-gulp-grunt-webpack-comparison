@@ -7,15 +7,19 @@ var buildConfig = require('./lib/build-config.js')(platform);
 var gulp = require('gulp');
 var pump = require('pump');
 var run = require('run-sequence');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
 
 // Gulp Plugins
 var sourcemaps = require('gulp-sourcemaps');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
-var uglify = require('gulp-uglify');
+var babel = require('gulp-babel');
 var concat = require('gulp-concat');
 var clean = require('gulp-clean');
 var htmlmin = require('gulp-htmlmin');
+var browserify = require('browserify');
+var uglify = require('gulp-uglify');
 
 // Environment Variable Modification for Express
 process.env.NODE_ENV = 'development';
@@ -26,7 +30,7 @@ process.env.PORT = 3001;
 var gls = require('gulp-live-server');
 
 // Tasks
-gulp.task('sass', function (cb) {
+gulp.task('styles', function (cb) {
     var tasks = [
         gulp.src(buildConfig.app.styles.files),
         sourcemaps.init(),
@@ -38,20 +42,27 @@ gulp.task('sass', function (cb) {
     pump(tasks, cb);
 });
 
-gulp.task('uglify', function (cb) {
+gulp.task('scripts', function (cb) {
     var tasks = [
-        gulp.src(buildConfig.build.uglify),
-        sourcemaps.init(),
-        concat('app.js'),
-        rename({ extname: '.min.js' }),
+        browserify({
+            entries: buildConfig.app.scripts.file,
+            debug: true
+        }).bundle(),
+        //gulp.src(buildConfig.build.babel),
+        source('app.js'),
+        buffer(),
+        sourcemaps.init({ loadMaps: true }),
+        babel(),
         uglify(),
+        concat('app.min.js'),
+        sourcemaps.write('.'),
         gulp.dest(buildConfig.dist.basePath)
     ];
 
     pump(tasks, cb);
 });
 
-gulp.task('copy:images', function (cb) {
+gulp.task('images', function (cb) {
     var tasks = [
         gulp.src(buildConfig.app.images.files, { cwd: buildConfig.app.images.cwd }),
         gulp.dest(buildConfig.dist.images)
@@ -60,7 +71,7 @@ gulp.task('copy:images', function (cb) {
     pump(tasks, cb);
 });
 
-gulp.task('copy:fonts', function (cb) {
+gulp.task('fonts', function (cb) {
     var tasks = [
         gulp.src(buildConfig.app.fonts.files, { cwd: buildConfig.app.fonts.cwd }),
         gulp.dest(buildConfig.dist.fonts)
@@ -69,7 +80,7 @@ gulp.task('copy:fonts', function (cb) {
     pump(tasks, cb);
 });
 
-gulp.task('htmlmin', function (cb) {
+gulp.task('html', function (cb) {
     var tasks = [
         gulp.src(buildConfig.app.html.files, { cwd: buildConfig.app.html.cwd }),
         htmlmin({ collapseWhitespace: true }),
@@ -89,9 +100,9 @@ gulp.task('clean', function (cb) {
 });
 
 gulp.task('watch', function () {
-    gulp.watch(buildConfig.app.styles.watch, ['sass']);
-    gulp.watch(buildConfig.app.scripts.files, ['uglify']);
-    gulp.watch(buildConfig.app.html.files, ['htmlmin']);
+    gulp.watch(buildConfig.app.styles.watch, ['styles']);
+    gulp.watch(buildConfig.app.scripts.files, ['scripts']);
+    gulp.watch(buildConfig.app.html.files, ['html']);
 });
 
 gulp.task('server', function (cb) {
@@ -99,20 +110,12 @@ gulp.task('server', function (cb) {
         server = gls.new(serverFileName);
 
     server.start();
-
-    // If any distribution files change reload them in the browser
-    gulp.watch([buildConfig.dist.basePath + '**\*'], function (file) {
-        console.log('file changed!', file);
-        server.notify.apply(server, [file]);
-    });
-
-    gulp.watch(serverFileName, server.start.bind(server));
 });
 
 // build tasks
 gulp.task('build', function (cb) {
     // By default, gulp will attempt to run tasks in parallel, but we have some dependencies to manage
-    run('clean', ['sass', 'uglify', 'htmlmin', 'copy:images', 'copy:fonts'], cb);
+    run('clean', ['styles', 'scripts', 'html', 'images', 'fonts'], cb);
 });
 
 // dev tasks
