@@ -19,7 +19,7 @@ const TodoForm = ({ addTodo }) => {
             textInput.value = '';
         }}>
             <div className="form-group">
-                <label for="nameInput" className="col-sm-2 control-label">Name</label>
+                <label htmlFor="nameInput" className="col-sm-2 control-label">Name</label>
                 <div className="col-sm-10">
                     <input type="text" className="form-control" id="nameInput" placeholder="Name" ref={node => {
                         nameInput = node;
@@ -27,7 +27,7 @@ const TodoForm = ({ addTodo }) => {
                 </div>
             </div>
             <div className="form-group">
-                <label for="textInput" className="col-sm-2 control-label">Text</label>
+                <label htmlFor="textInput" className="col-sm-2 control-label">Text</label>
                 <div className="col-sm-10">
                     <input type="text" className="form-control" id="textInput" placeholder="Text" ref={node => {
                         textInput = node;

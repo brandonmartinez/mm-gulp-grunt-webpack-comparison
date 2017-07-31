@@ -14,6 +14,7 @@ module.exports = function (grunt) {
     process.env.NODE_ENV = 'development';
     process.env.PLATFORM = platform;
     process.env.PORT = 3000;
+    process.env.USE_WEBPACK = process.env.USE_WEBPACK || false;
 
     grunt.initConfig({
         pkg: package,
@@ -27,24 +28,20 @@ module.exports = function (grunt) {
         },
         copy: {
             distfonts: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: buildConfig.app.fonts.cwd,
-                        src: buildConfig.app.fonts.files,
-                        dest: buildConfig.dist.fonts
-                    }
-                ],
+                files: [{
+                    expand: true,
+                    cwd: buildConfig.app.fonts.cwd,
+                    src: buildConfig.app.fonts.files,
+                    dest: buildConfig.dist.fonts
+                }],
             },
             distimages: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: buildConfig.app.images.cwd,
-                        src: buildConfig.app.images.files,
-                        dest: buildConfig.dist.images
-                    }
-                ],
+                files: [{
+                    expand: true,
+                    cwd: buildConfig.app.images.cwd,
+                    src: buildConfig.app.images.files,
+                    dest: buildConfig.dist.images
+                }],
             },
         },
         sass: {
@@ -63,7 +60,11 @@ module.exports = function (grunt) {
                     browserifyOptions: {
                         debug: true
                     },
-                    transform: [['babelify', { presets: ['es2015', 'react'] }]]
+                    transform: [
+                        ['babelify', {
+                            presets: ['es2015', 'react']
+                        }]
+                    ]
                 },
                 src: buildConfig.app.scripts.file,
                 dest: buildConfig.dist.scripts
@@ -96,6 +97,9 @@ module.exports = function (grunt) {
                 src: buildConfig.dist.scripts,
                 dest: buildConfig.dist.scripts
             }
+        },
+        webpack: {
+            dist: require('./webpack.config'),
         },
         htmlmin: {
             dist: {
@@ -154,7 +158,11 @@ module.exports = function (grunt) {
     });
 
     // friendly aliases
-    grunt.registerTask('scripts', ['browserify:dist', 'exorcise:dist', 'babel:dist', 'uglify:dist']);
+    if (process.env.USE_WEBPACK) {
+        grunt.registerTask('scripts', ['webpack:dist']);
+    } else {
+        grunt.registerTask('scripts', ['browserify:dist', 'exorcise:dist', 'babel:dist', 'uglify:dist']);
+    }
     grunt.registerTask('styles', 'sass:dist');
     grunt.registerTask('html', 'htmlmin:dist');
     grunt.registerTask('fonts', 'copy:distfonts');

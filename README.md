@@ -201,10 +201,13 @@ var buildConfig = require('./lib/build-config.js')('webpack');
         }
     };
 
-## Add SASS
-
 ## Add JavaScript
 
-## Add HTML Minify
+`yarn add babel-loader uglifyjs-webpack-plugin --dev`
 
-## Local Development and Distribution
+## Integrate with Grunt
+`yarn add grunt-webpack --dev`
+
+## Integrate with Gulp
+
+`yarn add gulp-webpack --dev`

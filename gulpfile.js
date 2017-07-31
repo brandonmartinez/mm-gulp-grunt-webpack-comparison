@@ -21,11 +21,13 @@ const htmlmin = require('gulp-htmlmin');
 const browserify = require('browserify');
 const babelify = require('babelify');
 const uglify = require('gulp-uglify');
+const webpack = require('gulp-webpack');
 
 // Environment Variable Modification for Express
 process.env.NODE_ENV = 'development';
 process.env.PLATFORM = platform;
 process.env.PORT = 3001;
+process.env.USE_WEBPACK = process.env.USE_WEBPACK || false;
 
 // Live Server
 var gls = require('gulp-live-server');
@@ -35,8 +37,12 @@ gulp.task('styles', function (cb) {
     var tasks = [
         gulp.src(buildConfig.app.styles.files),
         sourcemaps.init(),
-        sass({ outputStyle: 'compressed' }),
-        rename({ extname: '.min.css' }),
+        sass({
+            outputStyle: 'compressed'
+        }),
+        rename({
+            extname: '.min.css'
+        }),
         gulp.dest(buildConfig.dist.basePath)
     ];
 
@@ -44,30 +50,44 @@ gulp.task('styles', function (cb) {
 });
 
 gulp.task('scripts', function (cb) {
-    var tasks = [
-        browserify({
-            entries: buildConfig.app.scripts.file,
-            debug: true
-        })
+    var tasks;
+
+    if (process.env.USE_WEBPACK) {
+        tasks = [
+            gulp.src(buildConfig.app.scripts.file),
+            webpack(require('./webpack.config')),
+            gulp.dest(buildConfig.dist.basePath)
+        ];
+    } else {
+        tasks = [
+            browserify({
+                entries: buildConfig.app.scripts.file,
+                debug: true
+            })
             .transform(babelify)
             .bundle(),
-        //gulp.src(buildConfig.build.babel),
-        source('app.js'),
-        buffer(),
-        sourcemaps.init({ loadMaps: true }),
-        babel(),
-        uglify(),
-        concat('app.min.js'),
-        sourcemaps.write('.'),
-        gulp.dest(buildConfig.dist.basePath)
-    ];
+            //gulp.src(buildConfig.build.babel),
+            source('app.js'),
+            buffer(),
+            sourcemaps.init({
+                loadMaps: true
+            }),
+            babel(),
+            uglify(),
+            concat('app.min.js'),
+            sourcemaps.write('.'),
+            gulp.dest(buildConfig.dist.basePath)
+        ];
+    }
 
     pump(tasks, cb);
 });
 
 gulp.task('images', function (cb) {
     var tasks = [
-        gulp.src(buildConfig.app.images.files, { cwd: buildConfig.app.images.cwd }),
+        gulp.src(buildConfig.app.images.files, {
+            cwd: buildConfig.app.images.cwd
+        }),
         gulp.dest(buildConfig.dist.images)
     ];
 
@@ -76,7 +96,9 @@ gulp.task('images', function (cb) {
 
 gulp.task('fonts', function (cb) {
     var tasks = [
-        gulp.src(buildConfig.app.fonts.files, { cwd: buildConfig.app.fonts.cwd }),
+        gulp.src(buildConfig.app.fonts.files, {
+            cwd: buildConfig.app.fonts.cwd
+        }),
         gulp.dest(buildConfig.dist.fonts)
     ];
 
@@ -85,8 +107,12 @@ gulp.task('fonts', function (cb) {
 
 gulp.task('html', function (cb) {
     var tasks = [
-        gulp.src(buildConfig.app.html.files, { cwd: buildConfig.app.html.cwd }),
-        htmlmin({ collapseWhitespace: true }),
+        gulp.src(buildConfig.app.html.files, {
+            cwd: buildConfig.app.html.cwd
+        }),
+        htmlmin({
+            collapseWhitespace: true
+        }),
         gulp.dest(buildConfig.dist.html)
     ];
 
@@ -95,7 +121,9 @@ gulp.task('html', function (cb) {
 
 gulp.task('clean', function (cb) {
     var tasks = [
-        gulp.src(buildConfig.dist.basePath, { read: false }),
+        gulp.src(buildConfig.dist.basePath, {
+            read: false
+        }),
         clean()
     ];
 
