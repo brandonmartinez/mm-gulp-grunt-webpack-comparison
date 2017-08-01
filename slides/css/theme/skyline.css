@@ -101,8 +101,8 @@ body {
     z-index: 500;
     font-size: 1em;
     background: #00234d;
-    height: 2.5em;
-    line-height: 2.5em;
+    height: 2em;
+    line-height: 2em;
     padding-left: 1em;
 }
 .reveal footer.page-footer {
@@ -113,7 +113,7 @@ body {
     right: 0px;
     z-index: 500;
     background: #00234d;
-    height: 1.5em;
+    height: 1em;
     padding: .5em;
 }
 .reveal footer.page-footer .logo {
