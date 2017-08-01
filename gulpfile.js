@@ -33,6 +33,39 @@ process.env.USE_WEBPACK = process.env.USE_WEBPACK || false;
 var gls = require('gulp-live-server');
 
 // Tasks
+gulp.task('clean', function (cb) {
+    var tasks = [
+        gulp.src(buildConfig.dist.basePath, {
+            read: false
+        }),
+        clean()
+    ];
+
+    pump(tasks, cb);
+});
+
+gulp.task('images', function (cb) {
+    var tasks = [
+        gulp.src(buildConfig.app.images.files, {
+            cwd: buildConfig.app.images.cwd
+        }),
+        gulp.dest(buildConfig.dist.images)
+    ];
+
+    pump(tasks, cb);
+});
+
+gulp.task('fonts', function (cb) {
+    var tasks = [
+        gulp.src(buildConfig.app.fonts.files, {
+            cwd: buildConfig.app.fonts.cwd
+        }),
+        gulp.dest(buildConfig.dist.fonts)
+    ];
+
+    pump(tasks, cb);
+});
+
 gulp.task('styles', function (cb) {
     var tasks = [
         gulp.src(buildConfig.app.styles.files),
@@ -83,28 +116,6 @@ gulp.task('scripts', function (cb) {
     pump(tasks, cb);
 });
 
-gulp.task('images', function (cb) {
-    var tasks = [
-        gulp.src(buildConfig.app.images.files, {
-            cwd: buildConfig.app.images.cwd
-        }),
-        gulp.dest(buildConfig.dist.images)
-    ];
-
-    pump(tasks, cb);
-});
-
-gulp.task('fonts', function (cb) {
-    var tasks = [
-        gulp.src(buildConfig.app.fonts.files, {
-            cwd: buildConfig.app.fonts.cwd
-        }),
-        gulp.dest(buildConfig.dist.fonts)
-    ];
-
-    pump(tasks, cb);
-});
-
 gulp.task('html', function (cb) {
     var tasks = [
         gulp.src(buildConfig.app.html.files, {
@@ -114,17 +125,6 @@ gulp.task('html', function (cb) {
             collapseWhitespace: true
         }),
         gulp.dest(buildConfig.dist.html)
-    ];
-
-    pump(tasks, cb);
-});
-
-gulp.task('clean', function (cb) {
-    var tasks = [
-        gulp.src(buildConfig.dist.basePath, {
-            read: false
-        }),
-        clean()
     ];
 
     pump(tasks, cb);
