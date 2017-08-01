@@ -6,12 +6,17 @@ There are so many web packaging and task running options available to the front-
 
 Which option is best for static sites? Node.js web applications? Integrating with other languages and frameworks? We’ll dive into the differences, and similarities, between the frameworks and their offerings.
 
+# Slides
+
+Slides are available via the `slides\index.html` web page.
+
 # Code Samples
-This presentation relies heavily on a code demonstration. In order to compare Gulp, Grunt, and WebPack a small single page Todo Manager web application is included in this project.
+This presentation relies heavily on a code demonstration. In order to compare Gulp, Grunt, and webpack, a small single page Todo Manager web application is included in this project.
 
 Ultimately, each of the platforms will produce similar, if not identical, outputs for comparison. An _express.js_ server is included to run the samples locally.
 
 ## Actions To Achieve Using Each Platform
+
 - Minimal configuration and setup of platform
 - Compile SASS and Minify
 - Combine JavaScript Into Single File and Minify
@@ -23,11 +28,11 @@ Ultimately, each of the platforms will produce similar, if not identical, output
 
 The following global packages or tools are required to run the code samples:
 
-* [Yarn](https://yarnpkg.com/en/docs/install) (NPM can be used instead)
-* babel
-* browserify
-* grunt-cli
-* gulp-cli
+- [Yarn](https://yarnpkg.com/en/docs/install) (NPM can be used instead)
+- babel
+- browserify
+- grunt-cli
+- gulp-cli
 
 For the global npm packages, you can run the following command to get your system up-to-date. Afterwards, you can then run `yarn install` to restore all of the packages needed to run the code sample.
 
@@ -55,8 +60,8 @@ To serve via a local webserver, you can run `gulp serve` and then browse to [loc
 
 Unlike the other two technologies, which are Javascript task runners, webpack is actually a Javascript _bundler_. As such, a couple scenarios have been created to show how webpack could be used in a workflow. Each of these can be run either via `npm run` or using `yarn`, which is what we'll use here.
 
-* `yarn webpack:scripts`: this generates a Javascript file that could be used in an application. It is **not** a complete application, only put to show webpack being used in its simplest scenario.
-* `yarn webpack:grunt:build`: similar to `grunt build` with the main exception being that _webpack_ is used instead of the normal `scripts` task.
-* `yarn webpack:grunt:serve`: similar to `grunt serve` with the main exception being that _webpack_ is used instead of the normal `scripts` task.
-* `yarn webpack:gulp:build`: similar to `gulp build` with the main exception being that _webpack_ is used instead of the normal `scripts` task.
-* `yarn webpack:gulp:serve`: similar to `gulp serve` with the main exception being that _webpack_ is used instead of the normal `scripts` task.
+- `yarn webpack:scripts`: this generates a Javascript file that could be used in an application. It is **not** a complete application, only put to show webpack being used in its simplest scenario.
+- `yarn webpack:grunt:build`: similar to `grunt build` with the main exception being that _webpack_ is used instead of the normal `scripts` task.
+- `yarn webpack:grunt:serve`: similar to `grunt serve` with the main exception being that _webpack_ is used instead of the normal `scripts` task.
+- `yarn webpack:gulp:build`: similar to `gulp build` with the main exception being that _webpack_ is used instead of the normal `scripts` task.
+- `yarn webpack:gulp:serve`: similar to `gulp serve` with the main exception being that _webpack_ is used instead of the normal `scripts` task.
