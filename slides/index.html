@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Gulp, Grunt, WebPack: What’s a Dev to Choose?</title>
+
+    <meta name="description" content="Grunt Through Your Next ASP.NET App">
+    <meta name="author" content="Brandon Martinez">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/skyline.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+
+<body>
+
+    <div class="reveal">
+        <header class="page-title"></header>
+
+        <!-- Any section element inside of this container is displayed as a slide -->
+        <div class="slides">
+            <section class="intro" data-background="img/skyline-intro-background.jpg">
+                <div class="interior">
+                    <h3>Gulp, Grunt, WebPack</h3>
+                    <h4>What’s a Dev to Choose?</h4>
+                </div>
+            </section>
+
+            <section data-state="about-me">
+                <style>
+                    .about-me header:after {
+                        content: "About Me";
+                    }
+                </style>
+
+                <img src="img/avatar.jpg" style="width: 300px; height: auto;" />
+
+                <p>
+                    <small>Brandon Martinez | <a href="http://www.brandonmartinez.com/">brandonmartinez.com</a> | <a href="http://twitter.brandonmartinez.com">@brandonmartinez</a></small>
+                </p>
+
+                <p>
+                    <small>Skyline Technologies (We're Hiring!) | <a href="http://www.skylinetechnologies.com/">skylinetechnologies.com</a> | <a href="https://twitter.com/skylinetweets">@skylinetweets</a></small>
+                </p>
+            </section>
+
+            <section>
+                <h1>Let's Get Started!</h1>
+            </section>
+
+            <section data-state="whats-a-taskrunner">
+                <style>
+                    .whats-a-taskrunner header:after {
+                        content: "What's a Task Runner?";
+                    }
+                </style>
+
+                <h3>Exercise in Node.js</h3>
+
+                <a href="http://gruntjs.com/" target="_blank"><img src="img/grunt-logo.png" height="150" style="border: none; box-shadow: none; margin-right: 150px;" /></a>
+                <a href="http://gulpjs.com/" target="_blank"><img src="img/gulp-logo.png" height="150" style="border: none; box-shadow: none;" /></a>
+
+                <p>A <em>Task Runner</em> is a type of build system that can be used for various tasks. It can be used to minify
+                    and combine JavaScript, preprocess CSS via SASS or LESS, copy vendor assets from package manager like
+                    NPM and more.</p>
+            </section>
+
+            <section data-state="whats-grunt">
+                <style>
+                    .whats-grunt header:after {
+                        content: "What's Grunt?";
+                    }
+                </style>
+
+                <h3>And why all the noise?</h3>
+
+                <a href="http://gruntjs.com/" target="_blank"><img src="img/grunt-logo.png" height="150" style="border: none; box-shadow: none;" /></a>
+
+                <pre><code data-trim class="javascript">sass: {
+    dist: {
+        options: {
+            outputStyle: 'compressed',
+            sourceMap: true
+        },
+        src: buildConfig.app.styles.files,
+        dest: buildConfig.dist.styles,
+    }
+},</code></pre>
+            </section>
+
+            <section data-state="whats-gulp">
+                <style>
+                    .whats-gulp header:after {
+                        content: "What's Gulp?";
+                    }
+                </style>
+
+                <h3>Is it really that tasty?</h3>
+
+                <a href="http://gulpjs.com/" target="_blank"><img src="img/gulp-logo.png" height="150" style="border: none; box-shadow: none;" /></a>
+
+                <pre><code data-trim class="javascript">gulp.task('styles', function (cb) {
+    pump([
+        gulp.src(buildConfig.app.styles.files),
+        sass({
+            outputStyle: 'compressed'
+        }),
+        gulp.dest(buildConfig.dist.basePath)
+    ], cb);
+});</code></pre>
+            </section>
+
+            <section data-state="whats-a-bundler">
+                <style>
+                    .whats-a-bundler header:after {
+                        content: "What's a Bundler?";
+                    }
+                </style>
+
+                <h3>Get It Together, Man!</h3>
+
+                <a href="https://webpack.js.org/" target="_blank"><img src="img/webpack-logo.png" height="150" style="border: none; box-shadow: none; margin-right: 150px;" /></a>
+                <a href="http://browserify.org/" target="_blank"><img src="img/browserify-logo.png" height="150" style="border: none; box-shadow: none;" /></a>
+
+                <p>A <em>Bundler</em> is a tool in a build chain that gathers multiple files together and <em>bundles</em> them
+                    into components.</p>
+            </section>
+
+            <section data-state="whats-webpack">
+                <style>
+                    .whats-webpack header:after {
+                        content: "What's webpack?";
+                    }
+                </style>
+
+                <h3>Pack'N'Play!</h3>
+
+                <a href="https://webpack.js.org/" target="_blank"><img src="img/webpack-logo.png" height="150" style="border: none; box-shadow: none;" /></a>
+
+                <pre><code data-trim class="javascript">entry: {
+    app: buildConfig.app.scripts.cwd + 'app.jsx'
+},
+output: {
+    filename: '[name].min.js',
+    path: buildConfig.dist.basePath
+},</code></pre>
+            </section>
+
+            <section data-state="show-me-the-code">
+                <style>
+                    .show-me-the-code header:after {
+                        content: "Show Me the Code!";
+                    }
+                </style>
+
+                <h2>What Are We Doing Today?</h2>
+            </section>
+
+            <section data-state="thank-you">
+                <style>
+                    .thank-you header:after {
+                        content: "Thank You";
+                    }
+                </style>
+
+                <img src="img/avatar.jpg" style="width: 300px; height: auto;" />
+
+                <p>
+                    <small>Brandon Martinez | <a href="http://www.brandonmartinez.com/">brandonmartinez.com</a> | <a href="http://twitter.brandonmartinez.com">@brandonmartinez</a></small>
+                </p>
+
+                <p>
+                    <small>Skyline Technologies (We're Hiring!) | <a href="http://www.skylinetechnologies.com/">skylinetechnologies.com</a> | <a href="https://twitter.com/skylinetweets">@skylinetweets</a></small>
+                </p>
+            </section>
+        </div>
+        <footer class="page-footer">
+            <img class="logo" src="img/skyline-logo-footer.png" />
+        </footer>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+        Reveal.initialize({
+            // Display controls in the bottom right corner
+            controls: true,
+            // Display a presentation progress bar
+            progress: true,
+            // Display the page number of the current slide
+            slideNumber: false,
+            // Push each slide change to the browser history
+            history: true,
+            // Enable keyboard shortcuts for navigation
+            keyboard: true,
+            // Enable the slide overview mode
+            overview: true,
+            // Vertical centering of slides
+            center: true,
+            // Enables touch navigation on devices with touch input
+            touch: true,
+            // Loop the presentation
+            loop: false,
+            // Change the presentation direction to be RTL
+            rtl: false,
+            // Turns fragments on and off globally
+            fragments: true,
+            // Flags if the presentation is running in an embedded mode,
+            // i.e. contained within a limited portion of the screen
+            embedded: false,
+            // Number of milliseconds between automatically proceeding to the
+            // next slide, disabled when set to 0, this value can be overwritten
+            // by using a data-autoslide attribute on your slides
+            autoSlide: 0,
+            // Stop auto-sliding after user input
+            autoSlideStoppable: true,
+            // Enable slide navigation via mouse wheel
+            mouseWheel: false,
+            // Hides the address bar on mobile devices
+            hideAddressBar: true,
+            // Opens links in an iframe preview overlay
+            previewLinks: false,
+            // Transition style
+            transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
+            // Transition speed
+            transitionSpeed: 'default', // default/fast/slow
+            // Transition style for full page slide backgrounds
+            backgroundTransition: 'default', // default/none/slide/concave/convex/zoom
+            // Number of slides away from the current that are visible
+            viewDistance: 3,
+            // Parallax background image
+            // parallaxBackgroundImage: '', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
+            // // Parallax background size
+            // parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px"
+            // theme: 'sky', // available themes are in /css/theme
+            // Parallax scrolling
+            // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+            // parallaxBackgroundSize: '2100px 900px',
+            // Optional libraries used to extend on reveal.js
+            dependencies: [{
+                src: 'lib/js/classList.js',
+                condition: function () {
+                    return !document.body.classList;
+                }
+            }, {
+                src: 'plugin/markdown/marked.js',
+                condition: function () {
+                    return !!document.querySelector('[data-markdown]');
+                }
+            }, {
+                src: 'plugin/markdown/markdown.js',
+                condition: function () {
+                    return !!document.querySelector('[data-markdown]');
+                }
+            }, {
+                src: 'plugin/highlight/highlight.js',
+                async: true,
+                callback: function () {
+                    hljs.initHighlightingOnLoad();
+                }
+            }, {
+                src: 'plugin/zoom-js/zoom.js',
+                async: true,
+                condition: function () {
+                    return !!document.body.classList;
+                }
+            }, {
+                src: 'plugin/notes/notes.js',
+                async: true,
+                condition: function () {
+                    return !!document.body.classList;
+                }
+            }]
+        });
+    </script>
+
+</body>
+
+</html>

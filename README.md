@@ -6,6 +6,10 @@ There are so many web packaging and task running options available to the front-
 
 Which option is best for static sites? Node.js web applications? Integrating with other languages and frameworks? We’ll dive into the differences, and similarities, between the frameworks and their offerings.
 
+# Slides
+
+Slides are available via the `slides\index.html` web page.
+
 # Code Samples
 This presentation relies heavily on a code demonstration. In order to compare Gulp, Grunt, and WebPack a small single page Todo Manager web application is included in this project.
 
