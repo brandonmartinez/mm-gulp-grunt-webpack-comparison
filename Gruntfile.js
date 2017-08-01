@@ -158,15 +158,15 @@ module.exports = function (grunt) {
     });
 
     // friendly aliases
+    grunt.registerTask('fonts', 'copy:distfonts');
+    grunt.registerTask('images', 'copy:distimages');
+    grunt.registerTask('styles', 'sass:dist');
     if (process.env.USE_WEBPACK) {
         grunt.registerTask('scripts', ['webpack:dist']);
     } else {
         grunt.registerTask('scripts', ['browserify:dist', 'exorcise:dist', 'babel:dist', 'uglify:dist']);
     }
-    grunt.registerTask('styles', 'sass:dist');
     grunt.registerTask('html', 'htmlmin:dist');
-    grunt.registerTask('fonts', 'copy:distfonts');
-    grunt.registerTask('images', 'copy:distimages');
 
     // build tasks
     grunt.registerTask('build', ['clean', 'styles', 'scripts', 'html', 'fonts', 'images']);
