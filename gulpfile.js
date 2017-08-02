@@ -27,7 +27,7 @@ const webpack = require('gulp-webpack');
 process.env.NODE_ENV = 'development';
 process.env.PLATFORM = platform;
 process.env.PORT = 3001;
-process.env.USE_WEBPACK = process.env.USE_WEBPACK || false;
+const useWebpack = process.env.USE_WEBPACK = (process.env.USE_WEBPACK === "true");
 
 // Live Server
 var gls = require('gulp-live-server');
@@ -85,7 +85,7 @@ gulp.task('styles', function (cb) {
 gulp.task('scripts', function (cb) {
     var tasks;
 
-    if (process.env.USE_WEBPACK) {
+    if (useWebpack) {
         tasks = [
             gulp.src(buildConfig.app.scripts.file),
             webpack(require('./webpack.config')),

@@ -1,6 +1,6 @@
 const package = require('./package.json');
 const buildConfig = require('./lib/build-config.js')(process.env.PLATFORM || 'webpack');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -12,7 +12,11 @@ module.exports = {
     },
     module: {
         loaders: [{
-                test: /\.jsx?/,
+                test: /\.jsx$/,
+                loader: 'babel-loader'
+            },
+            {
+                test: /\.js$/,
                 include: buildConfig.app.basePath,
                 loader: 'babel-loader'
             },

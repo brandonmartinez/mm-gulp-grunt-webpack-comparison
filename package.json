@@ -4,11 +4,11 @@
   "description": "Demo application for presentation.",
   "main": "app.js",
   "scripts": {
-    "webpack:scripts": "webpack",
-    "webpack:gulp:build": "USE_WEBPACK=true gulp build",
-    "webpack:gulp:serve": "USE_WEBPACK=true gulp serve",
-    "webpack:grunt:build": "USE_WEBPACK=true grunt build",
-    "webpack:grunt:serve": "USE_WEBPACK=true grunt serve"
+    "webpack:scripts": "webpack --verbose",
+    "webpack:gulp:build": "cross-env USE_WEBPACK=true gulp build",
+    "webpack:gulp:serve": "cross-env USE_WEBPACK=true gulp serve",
+    "webpack:grunt:build": "cross-env USE_WEBPACK=true grunt build",
+    "webpack:grunt:serve": "cross-env USE_WEBPACK=true grunt serve"
   },
   "repository": "git+https://github.com/brandonmartinez/mm-gulp-grunt-webpack-comparison.git",
   "author": "Brandon Martinez",
@@ -26,6 +26,7 @@
     "babelify": "^7.3.0",
     "body-parser": "^1.17.2",
     "bootstrap-sass": "^3.3.7",
+    "cross-env": "^5.0.2",
     "express": "^4.15.3",
     "grunt": "^1.0.1",
     "grunt-babel": "^6.0.0",

@@ -28,6 +28,7 @@ Ultimately, each of the platforms will produce similar, if not identical, output
 
 The following global packages or tools are required to run the code samples:
 
+- [Node v8 or higher](https://nodejs.org/en/ (ES6 support)
 - [Yarn](https://yarnpkg.com/en/docs/install) (NPM can be used instead)
 - babel
 - browserify
